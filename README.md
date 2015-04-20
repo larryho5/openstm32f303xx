@@ -1,7 +1,9 @@
 /******************************************************************************/
+
 Template STM32F3-Discovery
 modified by Nicola Didomenico <poetrynick@gmail.com> and Del Popolo Salvatore <popolo@tin.it>
 originally by Matthew Blythe <mblythester@gmail.com>
+
 /******************************************************************************/
 
 #STM32F3-Discovery Application Template
