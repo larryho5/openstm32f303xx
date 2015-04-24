@@ -43,7 +43,6 @@
 __IO uint32_t TimingDelay = 0;
 uint32_t stato=50;
 GPIO_InitTypeDef GPIO_InitStructure; // dichiariamo la struttura abilitando il GPIO_LED Clock 
-GPIO_TypeDef *alias;
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -84,16 +83,14 @@ int main(void)
   
   //Configura il GPIO_LED pin e abilita AHB1 BUS Port E
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOE, ENABLE);
-  /*Configura il Pin 8 e 9 nella Port E come output*/
-  GPIO_StructInit(&GPIO_InitStructure);
+  /*Configura il Pin 9 nella Port E come output*/
+  //GPIO_StructInit(&GPIO_InitStructure);
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-  GPIO_Init(GPIOE,&GPIO_InitStructure);
-  alias=GPIOE;  
-    
+  GPIO_Init(GPIOE,&GPIO_InitStructure);  
 
   /* Infinite loop */
   while (1)
@@ -129,26 +126,26 @@ int main(void)
     /* LEDs On */
     // GPIO_SetBits(GPIOE, GPIO_Pin_9 | GPIO_Pin_8); 
     // oppure
-    //GPIOE->BSRR = 1<<9; // GPIO port bit set/reset, setta a 1, con uno shift 
+    GPIOE->BSRR = 1<<9; // GPIO port bit set/reset, setta a 1, con uno shift 
     // verso sinistra il pin PE9, quindi si accende il LED3
-    // Delay(50);
+     Delay(500);
     
     /* LEDs Off */
     // GPIO_ResetBits(GPIOE, GPIO_Pin_9 | GPIO_Pin_8);
     // oppure
-    // GPIOE->BRR = 1<<9; // GPIO Port bit reset, setta a 0, con uno shift 
+     GPIOE->BRR = 1<<9; // GPIO Port bit reset, setta a 0, con uno shift 
     // verso sinistra il pin PE9, quindi si spegne il LED3
     // oppure
     // GPIOE->BSRR = (1<<9)<<16; // Shift a sinistra sulla parte bassa dei 16 bit
-    // Delay(50); 
+     Delay(500); 
     
      /*Variabile Stato, si accende il LED 4 alla pressione del BUTTON_USER*/
      // stato=STM_EVAL_PBGetState(BUTTON_USER); 
 
-     static int ledval = 0;
-     GPIO_WriteBit(GPIOE , GPIO_Pin_9 , (ledval) ? Bit_SET : Bit_RESET);
-     ledval = 1 - ledval;
-     Delay (250);
+    // static int ledval = 0;
+    // GPIO_WriteBit(GPIOE , GPIO_Pin_9 , (ledval) ? Bit_SET : Bit_RESET);
+    // ledval = 1 - ledval;
+     //Delay (250);
   }
 }
 
