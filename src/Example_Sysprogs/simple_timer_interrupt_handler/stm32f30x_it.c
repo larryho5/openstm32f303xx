@@ -163,46 +163,6 @@ void SysTick_Handler(void)
   * @param  None
   * @retval None
   */
-void TIM3_IRQHandler(void)
-{
-  if (TIM_GetITStatus(TIM3, TIM_IT_CC1) != RESET)
-  {
-    TIM_ClearITPendingBit(TIM3, TIM_IT_CC1);
-    
-    /* LED3 toggling with frequency = 73.24 Hz */
-    STM_EVAL_LEDToggle(LED3); // toggle del led
-    capture = TIM_GetCapture1(TIM3); // 
-    TIM_SetCompare1(TIM3, capture + CCR1_Val); // Conta fino al valore capture + CCR1_Val e poi genera un'altro interrupt
-  }
-  else if (TIM_GetITStatus(TIM3, TIM_IT_CC2) != RESET)
-  {
-    TIM_ClearITPendingBit(TIM3, TIM_IT_CC2);
-    
-    /* LED4 toggling with frequency = 109.8 Hz */
-    STM_EVAL_LEDToggle(LED4);
-    capture = TIM_GetCapture2(TIM3);
-    TIM_SetCompare2(TIM3, capture + CCR2_Val);
-  }
-  else if (TIM_GetITStatus(TIM3, TIM_IT_CC3) != RESET)
-  {
-    TIM_ClearITPendingBit(TIM3, TIM_IT_CC3);
-    
-    /* LED5 toggling with frequency = 219.7 Hz */
-    STM_EVAL_LEDToggle(LED5);
-    capture = TIM_GetCapture3(TIM3);
-    TIM_SetCompare3(TIM3, capture + CCR3_Val);
-  }
-  else
-  {
-    TIM_ClearITPendingBit(TIM3, TIM_IT_CC4);
-    
-    /* LED6 toggling with frequency = 439.4 Hz */
-    STM_EVAL_LEDToggle(LED6);
-    capture = TIM_GetCapture4(TIM3);
-    TIM_SetCompare4(TIM3, capture + CCR4_Val);
-  }
-}
-
 /**
   * @brief  This function handles PPP interrupt request.
   * @param  None

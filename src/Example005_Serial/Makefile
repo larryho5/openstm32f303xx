@@ -1,20 +1,20 @@
 # put your *.c source files here, make should handle the rest!
-SRCS = main_raucea.c stm32f3_discovery.c system_stm32f30x.c stm32f30x_it.c
+SRCS = main.c stm32f3_discovery.c system_stm32f30x.c stm32f30x_it.c
 
 # all the files will be generated with this name (main.elf, main.bin, main.hex, etc)
 PROJ_NAME=main
 
 # Location of the Libraries folder from the STM32F0xx Standard Peripheral Library
-STD_PERIPH_LIB=../../../Libraries
+STD_PERIPH_LIB= ../../Libraries
 
 # Location of the linker scripts
-LDSCRIPT_INC=../../../Device/ldscripts
+LDSCRIPT_INC= ../../Device/ldscripts
 
 # location of OpenOCD Board .cfg files (only used with 'make program')
 OPENOCD_BOARD_DIR=/usr/share/openocd/scripts/board
 
 # Configuration (cfg) file containing programming directives for OpenOCD
-OPENOCD_PROC_FILE=../../../extra/stm32f3-openocd.cfg
+OPENOCD_PROC_FILE= ../../extra/stm32f3-openocd.cfg
 
 # that's it, no need to change anything below this line!
 
@@ -48,7 +48,7 @@ CFLAGS += -I $(STD_PERIPH_LIB)/STM32F30x_StdPeriph_Driver/inc
 CFLAGS += -I $(STD_PERIPH_LIB)/STM32_USB-FS-Device_Driver/inc
 CFLAGS += -include $(STD_PERIPH_LIB)/stm32f30x_conf.h
 
-STARTUP = ../../../Device/startup_stm32f30x.s # add startup file to build
+STARTUP = ../../Device/startup_stm32f30x.s # add startup file to build
 
 # need if you want to build with -DUSE_CMSIS 
 #SRCS += stm32f0_discovery.c

@@ -1,17 +1,12 @@
 #include "main.h"
-
-__IO uint32_t TimingDelay = 0;
 // GPIO_InitTypeDef GPIO_InitStructure;
+
 
 int main(void)
 {
-  if (SysTick_Config(SystemCoreClock / 1000)){
-    while (1)
-    {}
-  }
   // GPIOE clock enable
   RCC->AHBENR |= RCC_AHBENR_GPIOEEN; // or RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOE, ENABLE);
-  
+
   // Configure PE9 in output push-pull mode 
   GPIOE->MODER |= 1UL << 9*2; // or GPIOE->MODER = 1<<18 or GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
   
@@ -20,30 +15,22 @@ int main(void)
   GPIOE->OSPEEDR |= 3UL << 9*2; // or GPIOE->OSPEEDR= 2<<18 or GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 
   GPIOE->PUPDR |= 0L << 9*2; // or GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-
+  
+  // TIM3 clock enable
+  RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
+  
+  // delay = 0.5 = (PSC+1)*ARR/FAPB1 =(600*60000)/72000000=0.5 sec
+  TIM3->PSC = 599; // Set pre-scaler to 600 (PSC+1)
+  TIM3->ARR = 60000; // Auto reload value 60000
+  TIM3->CR1 = TIM_CR1_CEN; // Enable timer
   /* Infinite loop */
   while (1)
   {
-    GPIOE->ODR ^= 1L<<9; // Toggle Led state GPIOE->ODR=GPIOE->ODR ^ 1L<<9 ;
-    Delay(500); 
-    // or
-    // GPIOE->ODR = 1<<9;
-    // Delay(500); 
-    // GPIOE->BRR = 1<<9;
-    // Delay(500); 
+   if (TIM3->SR & TIM_SR_UIF){ // if UIF flag is set
+    TIM3->SR &= ~TIM_SR_UIF; // clear UIF flag
+    GPIOE->ODR ^= 1L<<9; // toggle Led state
+   }
   }
-}
-
-/**
-  * @brief  Inserts a delay time.
-  * @param  nTime: specifies the delay time length, in milliseconds.
-  * @retval None
-  */
-void Delay(__IO uint32_t nTime)
-{ 
-  TimingDelay = nTime;
-
-  while(TimingDelay != 0);
 }
 
 #ifdef  USE_FULL_ASSERT
@@ -66,13 +53,3 @@ void assert_failed(uint8_t* file, uint32_t line)
   }
 }
 #endif
-
-/**
-  * @}
-  */ 
-
-/**
-  * @}
-  */ 
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

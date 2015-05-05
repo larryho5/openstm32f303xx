@@ -42,10 +42,15 @@
 /* Private variables ---------------------------------------------------------*/
 TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 TIM_OCInitTypeDef  TIM_OCInitStructure;
-__IO uint16_t CCR1_Val = 40961;
-__IO uint16_t CCR2_Val = 27309;
-__IO uint16_t CCR3_Val = 13654;
-__IO uint16_t CCR4_Val = 6826;
+__IO uint16_t CCR1_Val = 40000;
+__IO uint16_t CCR2_Val = 39000;
+__IO uint16_t CCR3_Val = 41000;
+__IO uint16_t CCR4_Val = 38000;
+
+/*__IO uint16_t CCR1_Val = 27309;
+__IO uint16_t CCR2_Val = 13654;
+__IO uint16_t CCR3_Val = 40961;
+__IO uint16_t CCR4_Val = 6826;*/
 uint16_t PrescalerValue = 0;
 /* Private function prototypes -----------------------------------------------*/
 static void TIM_Config(void);
@@ -102,7 +107,7 @@ int main(void)
 
 
   /* Compute the prescaler value */
-  PrescalerValue = (uint16_t) ((SystemCoreClock) / 6000000) - 1; // 72M / 6M -1 = 11
+  PrescalerValue = (uint16_t) ((SystemCoreClock) / 1000) - 1;
 
   /* Time base configuration */
   TIM_TimeBaseStructure.TIM_Period = 65535;
@@ -110,12 +115,7 @@ int main(void)
   TIM_TimeBaseStructure.TIM_ClockDivision = 0;
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
 
-  TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure); 
-  // Il canale dei timer TIM3_CH1/CH2/CH3/CH4 sono collegati alla porta PE2 a PE5, ma i LED sono collegati
-  // LD3 (rosso): PE9
-  // LD4 (blu): PE8
-  // LD5 (arancione): PE10
-  // LD6 (verde): PE15
+  TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
 
   /* Prescaler configuration */
   TIM_PrescalerConfig(TIM3, PrescalerValue, TIM_PSCReloadMode_Immediate);
@@ -190,7 +190,6 @@ static void TIM_Config(void)
   STM_EVAL_LEDInit(LED4);
   STM_EVAL_LEDInit(LED5);
   STM_EVAL_LEDInit(LED6);
-
 
   /* Turn on LED3, LED4, LED5 and LED6 */
   STM_EVAL_LEDOn(LED3);

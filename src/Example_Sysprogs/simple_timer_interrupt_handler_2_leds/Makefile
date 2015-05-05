@@ -1,8 +1,8 @@
 # put your *.c source files here, make should handle the rest!
-SRCS = main_raucea.c stm32f3_discovery.c system_stm32f30x.c stm32f30x_it.c
+SRCS = simple_timer_interrupt_handler_2_leds.c stm32f3_discovery.c system_stm32f30x.c stm32f30x_it.c
 
 # all the files will be generated with this name (main.elf, main.bin, main.hex, etc)
-PROJ_NAME=main
+PROJ_NAME=simple_timer_interrupt_handler_2_leds
 
 # Location of the Libraries folder from the STM32F0xx Standard Peripheral Library
 STD_PERIPH_LIB=../../../Libraries

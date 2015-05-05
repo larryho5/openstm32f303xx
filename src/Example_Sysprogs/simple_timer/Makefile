@@ -1,8 +1,8 @@
 # put your *.c source files here, make should handle the rest!
-SRCS = main_raucea.c stm32f3_discovery.c system_stm32f30x.c stm32f30x_it.c
+SRCS = simple_timer.c stm32f3_discovery.c system_stm32f30x.c
 
 # all the files will be generated with this name (main.elf, main.bin, main.hex, etc)
-PROJ_NAME=main
+PROJ_NAME=simple_timer
 
 # Location of the Libraries folder from the STM32F0xx Standard Peripheral Library
 STD_PERIPH_LIB=../../../Libraries
@@ -32,8 +32,7 @@ CFLAGS += -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 CFLAGS += -ffunction-sections -fdata-sections
 
 #LDFLAGS += -Wl,--gc-sections -Wl,-Map=$(PROJ_NAME).map
-LDFLAGS += -Wl,--gc-sections --specs=rdimon.specs -Wl,--start-group -lgcc -lc -lm -lrdimon -Wl,-Map=$(PROJ_NAME).map
-
+LDFLAGS += -Wl,--gc-sections --specs=rdimon.specs --specs=nano.specs -u _printf_int -u _scanf_int -Wl,--start-group -lgcc -lc -lm -lrdimon -Wl,-Map=$(PROJ_NAME).map
 ###################################################
 
 vpath %.a $(STD_PERIPH_LIB)

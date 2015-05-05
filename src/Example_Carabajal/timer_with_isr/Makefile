@@ -1,5 +1,5 @@
 # put your *.c source files here, make should handle the rest!
-SRCS = main_raucea.c stm32f3_discovery.c system_stm32f30x.c stm32f30x_it.c
+SRCS = main.c stm32f3_discovery.c system_stm32f30x.c #stm32f30x_it.c
 
 # all the files will be generated with this name (main.elf, main.bin, main.hex, etc)
 PROJ_NAME=main
@@ -32,7 +32,7 @@ CFLAGS += -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 CFLAGS += -ffunction-sections -fdata-sections
 
 #LDFLAGS += -Wl,--gc-sections -Wl,-Map=$(PROJ_NAME).map
-LDFLAGS += -Wl,--gc-sections --specs=rdimon.specs -Wl,--start-group -lgcc -lc -lm -lrdimon -Wl,-Map=$(PROJ_NAME).map
+LDFLAGS += -Wl,--gc-sections --specs=rdimon.specs --specs=nano.specs -u _printf_int -u _printf_string -u _scanf_string -Wl,--start-group -lgcc -lc -lm -lrdimon -Wl,-Map=$(PROJ_NAME).map
 
 ###################################################
 
@@ -111,7 +111,7 @@ reallyclean: clean
 # Debugging targets
 #######################################################
 gdb: all
-	arm-none-eabi-gdb $(PROJ_NAME).elf
+	arm-none-eabi-gdb -tui $(PROJ_NAME).elf
 
 # Start OpenOCD GDB server (supports semihosting)
 openocd: 

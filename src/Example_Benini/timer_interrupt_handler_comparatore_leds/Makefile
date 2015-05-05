@@ -1,5 +1,5 @@
 # put your *.c source files here, make should handle the rest!
-SRCS = main_raucea.c stm32f3_discovery.c system_stm32f30x.c stm32f30x_it.c
+SRCS = main.c stm32f3_discovery.c system_stm32f30x.c stm32f30x_it.c
 
 # all the files will be generated with this name (main.elf, main.bin, main.hex, etc)
 PROJ_NAME=main
